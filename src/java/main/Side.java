@@ -18,7 +18,7 @@ public class Side {
 
         for (int y=length-1; y>=0; y--) {
             for (int x=0; x<length; x++) {
-                sb.append(get(x, y) == 1 ? '□' : ' ');
+                sb.append(get(x, y) == 1 ? '□' : ' ').append(' ');
             }
             sb.append('\n');
         }
