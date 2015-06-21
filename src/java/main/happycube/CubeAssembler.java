@@ -34,7 +34,7 @@ public class CubeAssembler {
 
     private void brute(Set<Cube> cubes, Cube prototype, int faceIndex, int availableSides) {
         if (faceIndex == CubeTopology.Face.values().length) {
-            if(prototype.isWellformedCube()) {
+            if(prototype.isWellformed()) {
                 cubes.add(new Cube(prototype));
             }
         }

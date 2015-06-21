@@ -69,7 +69,6 @@ public class Matrix {
         }
 
         return mul;
-
     }
 
     @Override
@@ -93,10 +92,7 @@ public class Matrix {
 
         Matrix matrix = (Matrix) o;
 
-        if (yl != matrix.yl) return false;
-        if (xl != matrix.xl) return false;
-        return Arrays.equals(arr, matrix.arr);
-
+        return yl == matrix.yl && xl == matrix.xl && Arrays.equals(arr, matrix.arr);
     }
 
     @Override

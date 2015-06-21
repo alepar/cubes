@@ -73,7 +73,7 @@ public class Cube {
         return true;
     }
 
-    public boolean isWellformedCube() {
+    public boolean isWellformed() {
         final Collection<Point> points = topology.getAllEdgePoints();
         for (Point point : points) {
             if (counts.get(point) != 1) {

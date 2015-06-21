@@ -51,7 +51,7 @@ public class Main {
             )
         };
 
-        // speeds bruteforce up ~5x
+        // starting from a different side speeds bruteforce up ~5x
         final Side tmp = sides[0];
         sides[0] = sides[5];
         sides[5] = tmp;

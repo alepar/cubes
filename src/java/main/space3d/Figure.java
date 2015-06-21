@@ -70,7 +70,6 @@ public class Figure {
         Figure figure = (Figure) o;
 
         return points.equals(figure.points);
-
     }
 
     @Override
