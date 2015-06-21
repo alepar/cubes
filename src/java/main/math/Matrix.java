@@ -1,21 +1,37 @@
+package math;
+
+import java.util.Arrays;
+
 public class Matrix {
 
     private final int yl;
     private final int xl;
     private final int[] arr;
 
-    public Matrix(int yl, int xl, int... arr) {
-        if (yl * xl != arr.length) {
+    public Matrix(int height, int width, int... arr) {
+        if (height * width != arr.length) {
             throw new IllegalArgumentException("arr.length is inconsistent with dimensions");
         }
 
-        this.yl = yl;
-        this.xl = xl;
-        this.arr = new int[arr.length];
+        this.yl = height;
+        this.xl = width;
+        this.arr = humanFriendlyArrayToComputerFriendly(height, width, arr);
+    }
+
+    private static int[] humanFriendlyArrayToComputerFriendly(int height, int width, int[] arr) {
+        final int[] shuffled = new int[arr.length];
 
         for (int i = 0; i < arr.length; i++) {
-            set(i%xl, yl-1-i/xl, arr[i]);
+            shuffled[i%width + (height-1-i/width) * width] = arr[i];
         }
+
+        return shuffled;
+    }
+
+    protected Matrix(Matrix m) {
+        this.xl = m.xl;
+        this.yl = m.yl;
+        this.arr = m.arr;
     }
 
     public int get(int x, int y) {
@@ -69,4 +85,35 @@ public class Matrix {
 
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Matrix matrix = (Matrix) o;
+
+        if (yl != matrix.yl) return false;
+        if (xl != matrix.xl) return false;
+        return Arrays.equals(arr, matrix.arr);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = yl;
+        result = 31 * result + xl;
+        result = 31 * result + Arrays.hashCode(arr);
+        return result;
+    }
+
+    public int getWidth() {
+        return xl;
+    }
+
+
+    public int getHeight() {
+        return yl;
+    }
+
 }
