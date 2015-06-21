@@ -1,11 +1,8 @@
 package happycube;
 
 import space3d.Transformation;
-import space3d.Transformations;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static happycube.CubeTopology.Face.Front;

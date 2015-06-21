@@ -9,8 +9,8 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import static space3d.Transformations.*;
 import static happycube.CubeTopology.Face.*;
+import static space3d.Transformations.*;
 
 public class CubeTopology {
 

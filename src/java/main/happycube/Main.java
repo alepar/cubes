@@ -1,8 +1,5 @@
 package happycube;
 
-import space3d.Transformations;
-
-import java.util.List;
 import java.util.Set;
 
 public class Main {
