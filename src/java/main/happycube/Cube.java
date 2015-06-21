@@ -121,7 +121,7 @@ public class Cube {
     @Override
     public int hashCode() {
         int sum = 0;
-        for (int i=0; i<4; i++) {
+        for (int i=0; i<8; i++) {
             final Transformation orientation = topology.getSideOrientations()[i];
             for (Face face : Face.values()) {
                 final Transformation rotation = topology.getMoveTransformation(face);
@@ -141,7 +141,7 @@ public class Cube {
         }
         final Cube that = (Cube) obj;
 
-        for (int i=0; i<4; i++) {
+        for (int i=0; i<8; i++) {
             final Transformation orientation = topology.getSideOrientations()[i];
             for (Face face : Face.values()) {
                 final Transformation rotation = topology.getMoveTransformation(face);
