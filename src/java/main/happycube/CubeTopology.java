@@ -4,10 +4,7 @@ import space3d.Point;
 import space3d.Transformation;
 import space3d.Transformations;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static happycube.CubeTopology.Face.*;
 import static space3d.Transformations.*;
@@ -22,6 +19,7 @@ public class CubeTopology {
     private final Map<Face, Transformation> moveTransformations;
     private final Transformation[] orientations;
     private final List<List<Point>> edges;
+    private final Set<Point> allEdgePoints;
 
 
     public CubeTopology(int size) {
@@ -29,6 +27,19 @@ public class CubeTopology {
         this.moveTransformations = calculateMoveTransformations(size);
         this.orientations = Transformations.orientationsZ(size);
         this.edges = calculateEdges(size);
+        this.allEdgePoints = union(edges);
+    }
+
+    private static Set<Point> union(List<List<Point>> listOfLists) {
+        final Set<Point> result = new HashSet<>();
+
+        for (List<Point> list : listOfLists) {
+            for (Point point : list) {
+                result.add(point);
+            }
+        }
+
+        return result;
     }
 
     private static List<List<Point>> calculateEdges(int size) {
@@ -85,6 +96,10 @@ public class CubeTopology {
 
     public int getSize() {
         return size;
+    }
+
+    public Set<Point> getAllEdgePoints() {
+        return allEdgePoints;
     }
 
 }

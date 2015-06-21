@@ -80,6 +80,10 @@ public class Figure {
         return orderedPoints.hashCode();
     }
 
+    public Set<Point> getPoints() {
+        return points;
+    }
+
     private static class PointsComparator implements Comparator<Point> {
         private static PointsComparator instance = new PointsComparator();
 

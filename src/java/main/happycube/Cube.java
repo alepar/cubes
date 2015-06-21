@@ -4,12 +4,7 @@ import happycube.CubeTopology.Face;
 import space3d.Point;
 import space3d.Transformation;
 
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Cube {
 
@@ -18,32 +13,60 @@ public class Cube {
     private final Map<Face, Side> faces;
     private final Map<Face, Side> transformedFaces;
 
+    private final Map<Point, Integer> counts;
+
     public Cube(int size) {
         this.topology = new CubeTopology(size);
         this.faces = new EnumMap<>(Face.class);
         this.transformedFaces = new EnumMap<>(Face.class);
+        this.counts = new HashMap<>();
     }
 
-    public Cube(Cube proto) {
-        this.topology = proto.topology;
-        this.faces = new EnumMap<>(proto.faces);
-        this.transformedFaces = new EnumMap<>(proto.transformedFaces);
+    public Cube(Cube src) {
+        this.topology = src.topology;
+        this.faces = new EnumMap<>(src.faces);
+        this.transformedFaces = new EnumMap<>(src.transformedFaces);
+        this.counts = new HashMap<>(src.counts);
     }
 
     public void setFace(Face face, Side side) {
         if (side == null) {
+            final Side transformedSide = transformedFaces.get(face);
+            if (transformedSide != null) {
+                decrementCounts(transformedSide);
+            }
+
             faces.remove(face);
             transformedFaces.remove(face);
         } else {
             faces.put(face, side);
-            transformedFaces.put(face, side.transform(topology.getMoveTransformation(face)));
+            final Side transformedSide = side.transform(topology.getMoveTransformation(face));
+            transformedFaces.put(face, transformedSide);
+            incrementCounts(transformedSide);
+        }
+    }
+
+    private void incrementCounts(Side side) {
+        for (Point point : side.getPoints()) {
+            Integer count = counts.get(point);
+            if (count == null) {
+                count = 0;
+            }
+            counts.put(point, count+1);
+        }
+    }
+
+    private void decrementCounts(Side side) {
+        for (Point point : side.getPoints()) {
+            counts.put(point, counts.get(point) -1);
         }
     }
 
     public boolean isPotentiallyWellformed() {
-        final List<List<Point>> edges = topology.getEdges();
-        for (List<Point> edge : edges) {
-            if (!isPotentiallyWellformed(edge)) {
+        final Collection<Point> points = topology.getAllEdgePoints();
+        for (Point point : points) {
+            final Integer count = counts.get(point);
+            if (count != null && count > 1) {
                 return false;
             }
         }
@@ -51,50 +74,13 @@ public class Cube {
     }
 
     public boolean isWellformedCube() {
-        final List<List<Point>> edges = topology.getEdges();
-        for (List<Point> edge : edges) {
-            if (!isWellformed(edge)) {
+        final Collection<Point> points = topology.getAllEdgePoints();
+        for (Point point : points) {
+            if (counts.get(point) != 1) {
                 return false;
             }
         }
         return true;
-    }
-
-    private boolean isPotentiallyWellformed(List<Point> edge) {
-        final int[] counts = countPoints(edge);
-
-        for (int count : counts) {
-            if (count > 1) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private boolean isWellformed(List<Point> edge) {
-        final int[] counts = countPoints(edge);
-
-        for (int count : counts) {
-            if (count != 1) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private int[] countPoints(List<Point> edge) {
-        final int[] counts = new int[edge.size()];
-        for (int i = 0; i < edge.size(); i++) {
-            final Point edgePoint = edge.get(i);
-            for (Side side : transformedFaces.values()) {
-                if (side.contains(edgePoint)) {
-                    counts[i]++;
-                }
-            }
-        }
-        return counts;
     }
 
     public Transformation[] getSideOrientations() {
