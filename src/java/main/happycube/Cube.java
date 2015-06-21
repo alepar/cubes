@@ -131,7 +131,6 @@ public class Cube {
             }
         }
         return sum;
-        // TODO memoize
     }
 
     @Override

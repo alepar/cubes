@@ -27,8 +27,10 @@ public class CubeAssembler {
         prototype.setFace(Front, sides[0]);
         brute(cubes, prototype, 1, 0b0111110);
 
-        prototype.setFace(Front, sides[0].transform(Transformations.mirrorZ()));
-        brute(cubes, prototype, 1, 0b0111110);
+
+        // looks like this does not add any unique assemblies, interesting
+//        prototype.setFace(Front, sides[0].transform(Transformations.mirrorZ()));
+//        brute(cubes, prototype, 1, 0b0111110);
 
         return cubes;
     }

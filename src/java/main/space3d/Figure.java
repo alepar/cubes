@@ -76,7 +76,7 @@ public class Figure {
     @Override
     public int hashCode() {
         final List<Point> orderedPoints = new ArrayList<>(points);
-        Collections.sort(orderedPoints, PointsComparator.instance);  // TODO keep it sorted, memoize
+        Collections.sort(orderedPoints, PointsComparator.instance);
         return orderedPoints.hashCode();
     }
 
