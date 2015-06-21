@@ -1,4 +1,4 @@
-Cubes Puzzle Task
+# Cubes Puzzle Task
 
 Create a computer program that solves the given cubes puzzles and
 prints the solution(s) in ASCII format into a file in unfolded format
