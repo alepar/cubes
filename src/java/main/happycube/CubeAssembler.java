@@ -1,6 +1,7 @@
 package happycube;
 
 import space3d.Transformation;
+import space3d.Transformations;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,9 +26,8 @@ public class CubeAssembler {
         brute(cubes, prototype, 1, 0b0111110);
 
 
-        // looks like this does not add any unique assemblies, interesting
-//        prototype.setFace(Front, sides[0].transform(Transformations.mirrorZ()));
-//        brute(cubes, prototype, 1, 0b0111110);
+        prototype.setFace(Front, sides[0].transform(Transformations.mirrorZ()));
+        brute(cubes, prototype, 1, 0b0111110);
 
         return cubes;
     }
@@ -39,22 +39,30 @@ public class CubeAssembler {
             }
         }
 
+
+        final Set<Side> triedSides = new HashSet<>();
         for (int i=0; i<6; i++) {
             if ((availableSides & (1<<i)) > 0) {
                 for (Transformation orientation : prototype.getSideOrientations()) {
-                    prototype.setFace(
-                            CubeTopology.Face.values()[faceIndex],
-                            sides[i].transform(orientation)
-                    );
+                    final Side orientedSide = sides[i].transform(orientation);
 
-                    if (prototype.isPotentiallyWellformed()) {
-                        brute(cubes, prototype, faceIndex+1, availableSides ^ (1<<i));
+                    if (!triedSides.contains(orientedSide)) {
+                        triedSides.add(orientedSide);
+
+                        prototype.setFace(
+                                CubeTopology.Face.values()[faceIndex],
+                                orientedSide
+                        );
+
+                        if (prototype.isPotentiallyWellformed()) {
+                            brute(cubes, prototype, faceIndex+1, availableSides ^ (1<<i));
+                        }
+
+                        prototype.setFace(
+                                CubeTopology.Face.values()[faceIndex],
+                                null
+                        );
                     }
-
-                    prototype.setFace(
-                            CubeTopology.Face.values()[faceIndex],
-                            null
-                    );
                 }
             }
         }
