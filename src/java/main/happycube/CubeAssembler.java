@@ -25,7 +25,7 @@ public class CubeAssembler {
         prototype.setFace(Front, sides[0]);
         brute(cubes, prototype, 1, 0b0111110);
 
-
+        // TODO do we need this? not sure
         prototype.setFace(Front, sides[0].transform(Transformations.mirrorZ()));
         brute(cubes, prototype, 1, 0b0111110);
 
@@ -38,7 +38,6 @@ public class CubeAssembler {
                 cubes.add(new Cube(prototype));
             }
         }
-
 
         final Set<Side> triedSides = new HashSet<>();
         for (int i=0; i<6; i++) {

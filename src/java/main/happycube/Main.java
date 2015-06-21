@@ -51,6 +51,13 @@ public class Main {
             )
         };
 
+/*
+        // speeds bruteforce up ~5x
+        final Side tmp = sides[0];
+        sides[0] = sides[5];
+        sides[5] = tmp;
+*/
+
         final SidePrinter printer = new SidePrinter(5, 2, 3);
         for (int i = 0; i < sides.length; i++) {
             printer.print(sides[i], i/3, i%3);
