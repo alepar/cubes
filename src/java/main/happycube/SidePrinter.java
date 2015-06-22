@@ -49,7 +49,13 @@ public class SidePrinter {
 
         for (int y=size-1; y>=0; y--) {
             for (int x=0; x<size; x++) {
-                arr[startRow+size-1-y][startCol+x] = side.contains(new Point(x, y, 0)) ? '□' : '.' ;
+                char c;
+                if (x > 0 && x < size-1 && y > 0 && y < size-1) {
+                    c = '□';
+                } else {
+                    c = side.contains(new Point(x, y, 0)) ? '□' : '.';
+                }
+                arr[startRow+size-1-y][startCol+x] = c;
             }
         }
 
