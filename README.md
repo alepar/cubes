@@ -16,7 +16,8 @@ input
 
 --------------
 
-3 unique cubes, 18.5ms to solve (54 iters in 0.9s)
+3 unique cubes, 9.6ms to solve (104 iters in 1.0s)
+
 
             □ . □ . □                           
             □ □ □ □ □                           
